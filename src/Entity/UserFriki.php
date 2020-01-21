@@ -35,12 +35,6 @@ class UserFriki implements UserInterface
      */
     private $password;
 
-    public function __construct()
-    {
-        $this->banned = false;
-        $this->roles = ['ROLE_USER'];
-    }
-
     /**
      * @var string The boolean banned user
      * @ORM\Column(type="boolean")
@@ -53,6 +47,12 @@ class UserFriki implements UserInterface
      */
     private $name;    
 
+    public function __construct()
+    {
+        $this->banned = false;
+        $this->roles = ['ROLE_USER'];
+    }
+    
     public function getId(): ?int
     {
         return $this->id;

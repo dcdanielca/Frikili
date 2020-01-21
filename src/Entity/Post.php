@@ -5,12 +5,14 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Datetime;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
  */
 class Post
 {
+    const CREATED_POST = 'Post creado';
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -57,6 +59,8 @@ class Post
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->likes = '';
+        $this->publishDate = new DateTime();
     }   
 
     public function getId(): ?int

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Post;
 use App\Form\PostType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -37,7 +38,7 @@ class PostController extends AbstractController
                         $newFilename
                     );
                 } catch (FileException $e) {
-                    throw new Exception($e);
+                    throw new FileException('Ha ocurrido un error');
                 }
 
                 $post->setPhoto($newFilename);
@@ -53,6 +54,31 @@ class PostController extends AbstractController
         return $this->render('post/index.html.twig', [
             'controller_name' => 'PostController',
             'form' => $form -> createView()
+        ]);
+    }
+
+    /**
+     * @Route("/post/{id}", name="postDetail")
+     */
+    public function detailPost($id)
+    {
+        $em=$this->getDoctrine()->getManager();
+        $post=$em->getRepository(Post::class)->find($id);
+        return $this->render('post/detail.html.twig', [
+            'post' => $post
+        ]);
+    }
+
+    /**
+     * @Route("/posts/user/", name="postUsers")
+     */
+    public function getpostUser()
+    {
+        $user = $this->getUser();
+        $em=$this->getDoctrine()->getManager();
+        $posts=$em->getRepository(Post::class)->findBy(['user' => $user]);
+        return $this->render('post/user_posts.html.twig', [
+            'posts' => $posts
         ]);
     }
 }

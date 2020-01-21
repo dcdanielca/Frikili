@@ -22,19 +22,10 @@ class Profession
     private $name;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="user")
+     * @ORM\ManyToOne(targetEntity="App\Entity\UserFriki", inversedBy="user")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $user;
-
-    public function getUser(): ?int
-    {
-        return $this->user;
-    }
-
-    public function getPost(): ?int
-    {
-        return $this->post;
-    }
 
     public function getId(): ?int
     {
@@ -50,6 +41,17 @@ class Profession
     {
         $this->name = $name;
 
+        return $this;
+    }
+    
+    public function getUser(): ?int
+    {
+        return $this->user;
+    }
+
+    public function setUser($user): ?self
+    {
+        $this->user = $user;
         return $this;
     }
 }

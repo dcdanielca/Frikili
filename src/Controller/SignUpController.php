@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
+use App\Entity\UserFriki;
 use App\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,7 +16,7 @@ class SignUpController extends AbstractController
      */
     public function index(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
-        $user = new User();
+        $user = new UserFriki();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
@@ -25,7 +25,7 @@ class SignUpController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
-            $this->addFlash('exito', User::SUCCESS_SIGNUP);
+            $this->addFlash('exito', UserFriki::SUCCESS_SIGNUP);
             return $this->redirectToRoute('sign_up');
         }
         return $this->render('sign_up/index.html.twig', [

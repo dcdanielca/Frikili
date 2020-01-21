@@ -6,11 +6,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\UserFrikiRepository")
  */
-class User implements UserInterface
+class UserFriki implements UserInterface
 {
     const SUCCESS_SIGNUP = 'Se ha registrado exitosamente';
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -34,6 +35,12 @@ class User implements UserInterface
      */
     private $password;
 
+    public function __construct()
+    {
+        $this->banned = false;
+        $this->roles = ['ROLE_USER'];
+    }
+
     /**
      * @var string The boolean banned user
      * @ORM\Column(type="boolean")
@@ -45,12 +52,6 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      */
     private $name;    
-
-    public function __construct()
-    {
-        $this->banned = false;
-        $this->roles = ['ROLE_USER'];
-    }
 
     public function getId(): ?int
     {
@@ -158,6 +159,5 @@ class User implements UserInterface
         $this->name = $name;
 
         return $this;
-    }
-    
+    }       
 }

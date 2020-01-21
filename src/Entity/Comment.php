@@ -19,59 +19,74 @@ class Comment
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $comment;
+    private $body;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $publish_date;
+    private $publishDate;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Post", inversedBy="comments")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $post;
+
+    /** 
+     * @ORM\ManyToOne(targetEntity="App\Entity\UserFriki", inversedBy="user")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;   
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="comments")
-     */
-    private $user;
-
-    public function getUser(): ?int
+    public function getBody(): ?string
     {
-        return $this->user;
+        return $this->body;
     }
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Post", inversedBy="post")
-     */
-    private $post;
-
-    public function getPost(): ?int
+    public function setBody(string $body): self
     {
-        return $this->post;
-    }
-
-    public function getComment(): ?string
-    {
-        return $this->comment;
-    }
-
-    public function setComment(string $comment): self
-    {
-        $this->comment = $comment;
+        $this->body = $body;
 
         return $this;
     }
 
     public function getPublishDate(): ?\DateTimeInterface
     {
-        return $this->publish_date;
+        return $this->publishDate;
     }
 
-    public function setPublishDate(\DateTimeInterface $publish_date): self
+    public function setPublishDate(\DateTimeInterface $publishDate): self
     {
-        $this->publish_date = $publish_date;
+        $this->publishDate = $publishDate;
 
+        return $this;
+    }
+
+    public function getPost(): ?Post
+    {
+        return $this->post;
+    }
+
+    public function setPost(?Post $post): self
+    {
+        $this->post = $post;
+
+        return $this;
+    }
+
+    public function getUser(): ?int
+    {
+        return $this->user;
+    }
+
+    public function setUser($user): ?self
+    {
+        $this->user = $user;
         return $this;
     }
 }

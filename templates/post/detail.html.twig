@@ -6,12 +6,21 @@
 
 {% block body %}
     {{parent()}}
+    {% set postLikes = post.likes | split(',')%}
     <div class="container bg-white rounded my-3 p-4">
         <div class="d-flex bd-highlight">
             <div class="p-2 flex-grow-1 bd-highlight">
                 <h3>{{post.title}}</h3>
-                <div class="my-3" style="color:#3282b8;">
+                <div class="my-3" style="color:#3282b8;" onclick="like({{ post.id }})">
                     <i class="fa fa-thumbs-up"></i><strong># Likes</strong>
+                    <p class="likeuser">
+                        {%if app.user.id in postLikes %}
+                        Te gustó esto
+                    {% else %}
+                        ¿Te gusta esto?
+                    {% endif %}
+                    </p>
+
                 </div>
                 <div style="color:#c3f584;">
                     <i class="far fa-clock"></i> <strong>Fecha de publicación: {{post.publishDate | date('Y-m-d') }}</strong>
@@ -28,4 +37,10 @@
             {{post.content}}
         </div>
     </div>
+{% endblock %}
+{% block javascripts %}
+{{parent()}}
+<script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+<script src="{{asset('js/ajax-call.js')}}"></script>
 {% endblock %}

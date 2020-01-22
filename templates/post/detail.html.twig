@@ -11,7 +11,7 @@
         <div class="d-flex bd-highlight">
             <div class="p-2 flex-grow-1 bd-highlight">
                 <h3>{{post.title}}</h3>
-                <div class="my-3" style="color:#3282b8; cursor: pointer;" onclick="like({{ post.id }})">
+                <div class="my-3 cursor" style="color:#3282b8;" onclick="like({{ post.id }})">
                     <i class="fa fa-thumbs-up"></i><strong class="likesPost">{{ postLikes | length - 1 }} Likes</strong>
                     <p class="likeuser">
                     {%if app.user.id in postLikes %}
@@ -38,9 +38,10 @@
         </div>
         <div class="text-justify my-3">
             <h4>Comentarios</h4>
-            {% for comment in comments%}
+            {% for comment in comments %}
             <div class="text-justify my-3 ml-5 p-1 border rounded">
-                {{comment.body}} - <small class="text-muted">{{comment.name}}</small>
+                {{comment.body}}
+                <p> <small>{{comment.name}} - {{comment.publishDate | date}}</small></p>
             </div>
             {% endfor %}
         </div>

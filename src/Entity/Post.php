@@ -46,7 +46,7 @@ class Post
     private $content;
 
     /**
-    * @ORM\ManyToOne(targetEntity="App\Entity\UserFriki", inversedBy="user")
+    * @ORM\ManyToOne(targetEntity="App\Entity\UserFriki", inversedBy="posts")
     * @ORM\JoinColumn(nullable=false)
     */
     private $user;

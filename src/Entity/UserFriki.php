@@ -47,6 +47,16 @@ class UserFriki implements UserInterface
      */
     private $name;    
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Post", mappedBy="user")
+     */
+    private $posts; 
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="user")
+     */
+    private $comments; 
+
     public function __construct()
     {
         $this->banned = false;
@@ -160,4 +170,21 @@ class UserFriki implements UserInterface
 
         return $this;
     }       
+
+    /**
+     * @return Collection|Post[]
+     */
+    public function getPosts()
+    {
+        return $this->posts;
+    }
+
+    /**
+     * @return Collection|Comments[]
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
 }

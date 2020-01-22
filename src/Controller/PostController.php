@@ -71,8 +71,6 @@ class PostController extends AbstractController
         $em=$this->getDoctrine()->getManager();
         $post=$em->getRepository(Post::class)->find($id);
 
-        $comments=$em->getRepository(Comment::class)->findCommentsPost($id);
-
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
@@ -83,7 +81,14 @@ class PostController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($comment);
             $em->flush();
+            
+            # Empty form
+            $comment = new Comment();
+            $form = $this->createForm(CommentType::class, $comment);
+            $this->redirectToRoute('postDetail', ['id' => $id]);
         }
+        
+        $comments=$em->getRepository(Comment::class)->findCommentsPost($id);
         return $this->render('post/detail.html.twig', [
             'post' => $post,
             'comments' => $comments,

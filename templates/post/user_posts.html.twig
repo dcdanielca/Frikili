@@ -5,12 +5,13 @@
 {% block body %}
     {{parent()}}
     {% for post in posts %}
-    <div class="container bg-white rounded my-3 p-4">
+    <div class="container bg-white rounded my-3 p-4 cursor " onclick="window.location.href='{{path('postDetail',{id:post.id})}}'">
+        {% set postLikes = post.likes | split(',') %}
         <div class="d-flex bd-highlight">
             <div class="p-2 flex-grow-1 bd-highlight">
                 <h3>{{post.title}}</h3>
                 <div class="my-3" style="color:#3282b8;">
-                    <i class="fa fa-thumbs-up"></i><strong># Likes</strong>
+                    <i class="fa fa-thumbs-up"></i><strong>{{ postLikes | length - 1 }} Likes</strong>
                 </div>
                 <div style="color:#c3f584;">
                     <i class="far fa-clock"></i> <strong>Fecha de publicación: {{post.publishDate | date('Y-m-d') }}</strong>

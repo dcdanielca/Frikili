@@ -19,7 +19,7 @@ class CommentRepository extends ServiceEntityRepository
         parent::__construct($registry, Comment::class);
     }
 
-    public function findCommentsDasboard($id)
+    public function findCommentsDashboard($id)
     {
         $query = $this->getEntityManager()
                 ->createQuery(
@@ -27,6 +27,7 @@ class CommentRepository extends ServiceEntityRepository
                     FROM App:Comment c
                     JOIN c.post p
                     WHERE c.user = :user
+                    ORDER BY c.publishDate DESC
                     ');
         $query->setParameter('user', $id);
         return $query->getResult();

@@ -3,7 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Post;
+use App\Entity\Comment;
+
 use App\Form\PostType;
+use App\Form\CommentType;
+
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -62,12 +66,28 @@ class PostController extends AbstractController
     /**
      * @Route("/post/{id}", name="postDetail")
      */
-    public function detailPost($id)
+    public function detailPost(Request $request, $id)
     {
         $em=$this->getDoctrine()->getManager();
         $post=$em->getRepository(Post::class)->find($id);
+
+        $comments=$em->getRepository(Comment::class)->findCommentsPost($id);
+
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $comment->setPost($post);
+            $user=$this->getUser();
+            $comment->setUser($user);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($comment);
+            $em->flush();
+        }
         return $this->render('post/detail.html.twig', [
-            'post' => $post
+            'post' => $post,
+            'comments' => $comments,
+            'form' => $form -> createView()
         ]);
     }
 

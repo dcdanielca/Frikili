@@ -36,6 +36,17 @@
         <div class="text-justify my-3">
             {{post.content}}
         </div>
+        <div class="text-justify my-3">
+            <h4>Comentarios</h4>
+            {% for comment in comments%}
+            <div class="text-justify my-3 ml-5 p-1 border rounded">
+                {{comment.body}} - <small class="text-muted">{{comment.name}}</small>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="ml-5">
+            {{form(form)}}
+        </div>
     </div>
 {% endblock %}
 {% block javascripts %}

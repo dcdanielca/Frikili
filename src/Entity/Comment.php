@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Datetime;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CommentRepository")
@@ -37,6 +38,11 @@ class Comment
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;   
+
+    public function __construct()
+    {
+        $this->publishDate = new DateTime();
+    }   
 
     public function getId(): ?int
     {

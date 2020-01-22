@@ -7,9 +7,9 @@
 {% block body %}
     {{parent()}}
 <div class="container">
-    {% for post in pagination %}
     <div class="row">
         <div class="col-md-8 cursor">
+            {% for post in pagination %}
             <div class="bg-white rounded p-3 my-3"  onclick="window.location.href='{{path('postDetail',{id:post.id})}}'">
                 <div class="d-flex bd-highlight">
                     <div class="p-2 flex-grow-1 bd-highlight">
@@ -24,14 +24,24 @@
                     </div>
                 </div>
             </div>
+            {% endfor %}
         </div>
         <div class="col-md-4">
             <div class="bg-white rounded p-3 my-3">
                 <h4>Comentarios</h4>
+                {% for comment in comments %}
+                <div class="d-flex bd-highlight">
+                    <a href="{{"/post/"~comment.id}}">
+                        <div class="p-1 flex-grow-1 bd-highlight">
+                            <h5>{{comment.title}} ({{comment.publishDate | date('Y-m-d')}})</h5> 
+                        </div>
+                    </a>
+                </div>
+                <hr class="solid">
+                {% endfor %}
             </div>
         </div>
     </div>
-    {% endfor %}
 </div>
 <div class="d-flex justify-content-center">
     <div class="navigation">

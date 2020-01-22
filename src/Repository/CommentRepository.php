@@ -19,6 +19,32 @@ class CommentRepository extends ServiceEntityRepository
         parent::__construct($registry, Comment::class);
     }
 
+    public function findCommentsDasboard($id)
+    {
+        $query = $this->getEntityManager()
+                ->createQuery(
+                    'SELECT c.body, c.publishDate, p.id, p.title
+                    FROM App:Comment c
+                    JOIN c.post p
+                    WHERE c.user = :user
+                    ');
+        $query->setParameter('user', $id);
+        return $query->getResult();
+    }
+
+    public function findCommentsPost($id)
+    {
+        $query = $this->getEntityManager()
+                ->createQuery(
+                    'SELECT c.body, c.publishDate, u.name
+                    FROM App:Comment c
+                    JOIN c.user u
+                    WHERE c.post = :post
+                    ');
+        $query->setParameter('post', $id);
+        return $query->getResult();
+    }
+
     // /**
     //  * @return Comment[] Returns an array of Comment objects
     //  */

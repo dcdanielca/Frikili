@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Post;
+use App\Entity\Comment;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,9 +24,11 @@ class DashboardController extends AbstractController
             $request->query->getInt('page', 1), /*page number*/
             2 /*limit per page*/
         );
+        $comments = $em->getRepository(Comment::class)->findCommentsDashboard($this->getUser()->getId());
         return $this->render('dashboard/index.html.twig', [
             'controller_name' => 'Bienvenido a Dashboard',
-            'pagination' => $pagination
+            'pagination' => $pagination,
+            'comments' => $comments
         ]);
     }
 }

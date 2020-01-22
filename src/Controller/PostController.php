@@ -95,9 +95,12 @@ class PostController extends AbstractController
             $id = $request->request->get('id');
             $post = $em->getRepository(Post::class)->find($id);
             $likes = $post->getLikes();
-            $likes .= $user->getId().',';
-            $post->setLikes($likes);
-            $em->flush();
+            
+            if(!in_array($user->getId(), explode(',',$likes))){
+                $likes .=  $user->getId().',';
+                $post->setLikes($likes);
+                $em->flush();
+            }
             return new JsonResponse(['likes' => $likes]);
         }else{
             throw new Exception('error');

@@ -6,7 +6,9 @@ function like(id){
         asyn: true,
         dataType: "json",
         success: function (response) {
-            $('.likeuser').text('Te gustó esto')
+            $('.likeuser').text('Te gustó esto');
+            var numLikes = response.likes.split(',').length - 1;
+            $('.likesPost').html(numLikes + ' Likes');
         }
     });
 }
